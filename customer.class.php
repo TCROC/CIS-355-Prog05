@@ -104,8 +104,9 @@ class Customer {
             $q->execute(array($absolutePath, $this->id));
 
             Database::disconnect();
-            header("Location: $this->urlName.php"); // go back to "list"
-        }
+            header('Content-Type: application/json');
+            echo json_encode(['location'=>"$this->urlName.html"]);
+            exit();        }
         else {
             // if not valid data, go back to "create" form, with errors
             // Note: error fields are set in fieldsAllValid ()method
@@ -149,7 +150,9 @@ class Customer {
                 $q->execute(array($this->name, $this->email, $this->mobile, $this->fileName, $this->fileType, $content, $this->fileSize, $absolutePath, $this->description, $this->id));
                 Database::disconnect();
 
-                header("Location: $this->urlName.php");
+                header('Content-Type: application/json');
+                echo json_encode(['location'=>"$this->urlName.html"]);
+                exit();
             } else {
                 $this->noerrors = false;
                 $this->update_record($id);  // go back to "update" form
@@ -166,7 +169,9 @@ class Customer {
                 $q->execute(array($this->name, $this->email, $this->mobile, $this->description, $this->id));
                 Database::disconnect();
 
-                header("Location: $this->urlName.php");
+                header('Content-Type: application/json');
+                echo json_encode(['location'=>"$this->urlName.html"]);
+                exit();
             } else {
                 $this->noerrors = false;
                 $this->update_record($id);  // go back to "update" form
@@ -181,7 +186,9 @@ class Customer {
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         Database::disconnect();
-        header("Location: $this->urlName.php");
+        header('Content-Type: application/json');
+        echo json_encode(['location'=>"$this->urlName.html"]);
+        exit();
     } // end function delete_db_record()
 
     function store_file_locally(){
@@ -218,22 +225,6 @@ class Customer {
                 exit();
                 break;
         }
-        echo "<!DOCTYPE html>
-        <html>
-            <head>
-                <title>$funWord a $this->title</title>
-                    ";
-        echo "
-                <meta charset='UTF-8'>
-                <script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"
-                integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\"
-                crossorigin=\"anonymous\"></script>
-                <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css' rel='stylesheet'>
-                <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js'></script>
-                <style>label {width: 5em;}</style>
-                    "; 
-        echo "
-            </head>";
         echo "
             <body>
                 <div class='container'>
@@ -241,7 +232,7 @@ class Customer {
                         <p class='row'>
                             <h3>$funWord a $this->title</h3>
                         </p>
-                        <form class='form-horizontal' action='$this->urlName.php?fun=$funNext' method='post' enctype='multipart/form-data' onsubmit='return Validate(this);'>                        
+                        <form class='form-horizontal' action='$this->urlName.html?fun=$funNext' method='post' enctype='multipart/form-data' onsubmit='return Validate(this);'>                        
                     ";
     } // end function generate_html_top()
     
@@ -267,7 +258,7 @@ class Customer {
         echo " 
                             <div class='form-actions'>
                                 $funButton
-                                <a class='btn btn-secondary' href='$this->urlName.php'>Back</a>
+                                <a class='btn btn-secondary' href='$this->urlName.html'>Back</a>
                             </div>
                         </form>
                     </div>
@@ -275,38 +266,6 @@ class Customer {
                 </div> <!-- /container -->
             </body>
         </html>
-        <script>
-        // Code taken from https://canvas.svsu.edu/courses/28460/files/folder/_file_upload
-            var _validFileExtensions = [\".jpg\", \".jpeg\", \".gif\", \".png\"];    
-            function Validate(oForm) {
-                var arrInputs = oForm.getElementsByTagName(\"input\");
-                for (var i = 0; i < arrInputs.length; i++) {
-                    var oInput = arrInputs[i];
-                    if (oInput.type == \"file\") {
-                        var sFileName = oInput.value;
-                        if (sFileName.length > 0) {
-                            var blnValid = false;
-                            for (var j = 0; j < _validFileExtensions.length; j++) {
-                                var sCurExtension = _validFileExtensions[j];
-                                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-                                    blnValid = true;
-                                    break;
-                                }
-                            }
-                            
-                            if (!blnValid) {
-                                alert(\"Sorry, \" + sFileName + \" is invalid, allowed extensions are: \" + _validFileExtensions.join(\", \"));
-                                return false;
-                            }
-                                                        
-                        }
-                    }
-                }
-
-                return true;
-            }
-
-        </script>
                     ";
     } // end function generate_html_bottom()
     
@@ -348,26 +307,7 @@ class Customer {
             case "create":
             case "update":
                 // Original code here: https://stackoverflow.com/questions/16207575/how-to-preview-a-image-before-and-after-upload
-                echo '<br><input type="file" name="Filename"' . $required . ' onchange="readURL(this);">
-                        <script type="text/javascript">
-                        function readURL(input) {
-                            if (input.files[0].size > 1000000) {
-                                input.value = null;
-                                alert("The picture cannot be larger than 1MB in size!");
-                            }
-                            
-                            if (input.files && input.files[0]) {
-                                var reader = new FileReader();
-                                reader.onload = function (e) {
-                                    $(\'#imgDisplay\').attr(\'src\', e.target.result);
-                                }
-                
-                                reader.readAsDataURL(input.files[0]);
-                            } else {
-                                    $(\'#imgDisplay\').attr(\'src\', null);
-                            }
-                        }
-                        </script>';
+                echo '<br><input type="file" name="Filename"' . $required . ' onchange="readURL(this);">';
                 break;
         }
     }
@@ -395,21 +335,7 @@ class Customer {
     } // end function fieldsAllValid() 
 
     function list_records() {
-        echo "<!DOCTYPE html>
-        <html>
-            <head>
-                <title>$this->title" . "s" . "</title>
-                    ";
         echo "
-                <meta charset='UTF-8'>
-                <script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"
-                integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\"
-                crossorigin=\"anonymous\"></script>
-                <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css' rel='stylesheet'>
-                <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js'></script>
-                    ";  
-        echo "
-            </head>
             <body>
                 <a href='https://github.com/TCROC/CIS-355-Prog04' target='_blank'>GitHub</a><br />
                 <a href='Diagrams/CustomerFlow.pdf' target='_blank'>Flow Diagram</a><br />
@@ -419,8 +345,8 @@ class Customer {
                         <h3>$this->title" . "s" . "</h3>
                     </p>
                     <p>
-                        <a href='$this->urlName.php?fun=display_create_form' class='btn btn-success'>Create</a>
-                        <a href='logout.php' class='btn btn-danger'>Logout</a>
+                        <a href='$this->urlName.html?fun=display_create_form' class='btn btn-success'>Create</a>
+                        <a href='logout.html' class='btn btn-danger'>Logout</a>
                     </p>
                     <div class='row'>
                         <table class='table table-striped table-bordered'>
@@ -450,11 +376,11 @@ class Customer {
                 echo "<td><a href='" . $row["absolutepath"] . "' target='_blank'>". $row["absolutepath"] . "</a></td>";
                 echo "<td>". $row["description"] . "</td>";
                 echo "<td width=250>";
-                echo "<a class='btn btn-info' href='$this->urlName.php?fun=display_read_form&id=".$row["id"]."'>Read</a>";
+                echo "<a class='btn btn-info' href='$this->urlName.html?fun=display_read_form&id=".$row["id"]."'>Read</a>";
                 echo "&nbsp;";
-                echo "<a class='btn btn-warning' href='$this->urlName.php?fun=display_update_form&id=".$row["id"]."'>Update</a>";
+                echo "<a class='btn btn-warning' href='$this->urlName.html?fun=display_update_form&id=".$row["id"]."'>Update</a>";
                 echo "&nbsp;";
-                echo "<a class='btn btn-danger' href='$this->urlName.php?fun=display_delete_form&id=".$row["id"]."'>Delete</a>";
+                echo "<a class='btn btn-danger' href='$this->urlName.html?fun=display_delete_form&id=".$row["id"]."'>Delete</a>";
                 echo "</td>";
             echo "</tr>";
         }

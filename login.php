@@ -25,9 +25,14 @@ if ($_POST){
         $_SESSION["username"] = $username;
 
         // Go to the customer page.
-        header("Location: customer.php");
-    } else // Otherwise, try to log in again.
-        header("Location: login.php?errorMessage=Invalid Username or Password!");
+        header('Content-Type: application/json');
+        echo json_encode(['location'=>'customer.html']);
+        exit();
+    } else {// Otherwise, try to log in again.
+        header('Content-Type: application/json');
+        echo json_encode(['location'=>'login.html?errorMessage=Invalid Username or Password!']);
+        exit();
+    }
 }
 ?>
 
@@ -45,11 +50,11 @@ if ($_POST){
 
 <div class="container">
     <h1>Log In</h1>
-    <form class="form-horizontal" action="login.php" method="post">
+    <form class="form-horizontal" action="login.html" method="post">
         <input name="username" type="text" placeholder="me@email.com" required>
         <input name="password" type="password" placeholder="password" required>
         <button type="submit" class="btn btn-success">Sign In</button>
-        <a href="createAccount.php" class="btn btn-info">Join</a>
+        <a href="createAccount.html" class="btn btn-info">Join</a>
         <?php
         // Displays an error message if there is one.
         if ($errorMessage) {

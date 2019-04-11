@@ -77,10 +77,14 @@ if ($_POST){
         $headers = 'From:noreply@customers.com' . "\r\n"; // Set from header
         mail($to, $subject, $message, $headers); // Send our email
 
-        header("Location: customer.php");
+        header('Content-Type: application/json');
+        echo json_encode(['location'=>'customer.html']);
+        exit();
     } else { // Otherwise, try creating an account in again.
         Database::disconnect();
-        header("Location: createAccount.php?errorMessage=Something went wrong. Please try again.");
+        header('Content-Type: application/json');
+        echo json_encode(['location'=>'createAccount.html?errorMessage=Something went wrong. Please try again.']);
+        exit();
     }
 }
 ?>
