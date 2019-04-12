@@ -2,14 +2,29 @@
 session_start();
 require "database.php";
 
-$emailVerificationUrl = "http://localhost:63342/Prog03/verifyEmail.php";
+$errorMessage = '';
 
-if ($_GET)
-    $errorMessage = $_GET["errorMessage"];
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET["errorMessage"])) $errorMessage = $_GET["errorMessage"];
+
+    echo '<div class="container">
+    <h1>Join</h1>
+    <form onsubmit="return loadDoc(\'createAccount.php\', \'POST\', this)">
+        <img id=imgDisplay overflow=hidden width=200 height=200 src=""/><br>
+        <input type="file" name="Filename" onchange="readURL(this);" required><br>
+        Description: <br><input name="description" type="text" placeholder="description" required><br>
+        Name: <br><input name="name" type="text" placeholder="name" required><br>
+        Email: <br><input name="email" type="text" placeholder="me@email.com" required><br>
+        Mobile (123-456-7890): <br><input name="mobile" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br>
+        Password: <br><input name="password" type="password" placeholder="password" required><br>
+        <button type="submit" class="btn btn-success">Join</button>
+    </form>
+</div>';
+}
 else
     $errorMessage='';
 
-if ($_POST){
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Create an account with the data given from the post.
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -65,18 +80,6 @@ if ($_POST){
 
         $_SESSION["username"] = $email;
 
-        $to      = $email; // Send email to our user
-        $subject = 'Email Verification';
-        $message = '
- 
-        Thanks for joining!
-         
-        Please click this link to verify your email:
-        '.$emailVerificationUrl.'?email='.$email.'&password='.$password.'';
-
-        $headers = 'From:noreply@customers.com' . "\r\n"; // Set from header
-        mail($to, $subject, $message, $headers); // Send our email
-
         header('Content-Type: application/json');
         echo json_encode(['location'=>'customer.html']);
         exit();
@@ -88,84 +91,3 @@ if ($_POST){
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset='UTF-8'>
-    <script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"
-            integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\"
-            crossorigin=\"anonymous\"></script>
-    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css' rel='stylesheet'>
-    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js'></script>
-    <style>label {width: 5em;}</style>
-</head>
-
-<div class="container">
-    <h1>Join</h1>
-    <form method="post" enctype="multipart/form-data" onsubmit="return Validate(this)">
-        <img id=imgDisplay overflow=hidden width=200 height=200 src=""/><br>
-        <input type="file" name="Filename" onchange="readURL(this);" required><br>
-        Description: <br><input name="description" type="text" placeholder="description" required><br>
-        Name: <br><input name="name" type="text" placeholder="name" required><br>
-        Email: <br><input name="email" type="text" placeholder="me@email.com" required><br>
-        Mobile (123-456-7890): <br><input name="mobile" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br>
-        Password: <br><input name="password" type="password" placeholder="password" required><br>
-        <button type="submit" class="btn btn-success">Join</button>
-        <?php
-        // Display's an error message if there is one.
-        if ($errorMessage) {
-            echo "<p class=\"alert alert-danger\" role=\"alert\">$errorMessage</p>";
-        }
-        ?>
-    </form>
-</div>
-</html>
-
-<script type="text/javascript">
-    function readURL(input) {
-        if (input.files[0].size > 1000000) {
-            input.value = null;
-            alert("The picture cannot be larger than 1MB in size!");
-        }
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById("imgDisplay").setAttribute("src", e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            document.getElementById("imgDisplay").setAttribute("src", null);
-        }
-    }
-
-    var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
-    function Validate(oForm) {
-        var arrInputs = oForm.getElementsByTagName("input");
-        for (var i = 0; i < arrInputs.length; i++) {
-            var oInput = arrInputs[i];
-            if (oInput.type == "file") {
-                var sFileName = oInput.value;
-                if (sFileName.length > 0) {
-                    var blnValid = false;
-                    for (var j = 0; j < _validFileExtensions.length; j++) {
-                        var sCurExtension = _validFileExtensions[j];
-                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-                            blnValid = true;
-                            break;
-                        }
-                    }
-
-                    if (!blnValid) {
-                        alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-</script>

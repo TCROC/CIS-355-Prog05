@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-//if (!isset($_SESSION["username"])){
-//    header('Content-Type: application/json');
-//    echo json_encode(['location'=>'login.html']);
-//    exit();
-//}
+if (!isset($_SESSION["username"])){
+    header('Content-Type: application/json');
+    echo json_encode(['location'=>'login.html']);
+    exit();
+}
 
 // include the class that handles database connections
 require "database.php";

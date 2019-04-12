@@ -1,35 +1,14 @@
 <!DOCTYPE html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <meta charset='UTF-8'>
+    <script src="globalFunctions.js"></script>
+</head>
 <html>
-<body onload="loadDoc()">
+<body onload="loadDoc('logout.php', 'GET')">
 
 <div id="htmlDiv">
 </div>
-
-<script>
-    function loadDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-
-                var redirect = false;
-                try {
-                    var response = JSON.parse(this.responseText);
-                    if (response.location) {
-                        window.location.href = response.location;
-                        redirect = true;
-                    }
-                } catch {
-
-                }
-
-                if (!redirect)
-                    document.getElementById("htmlDiv").innerHTML = this.responseText;
-            }
-        };
-        xhttp.open("GET", "logout.php" + window.location.search, true);
-        xhttp.send();
-    }
-</script>
 
 </body>
 </html>
