@@ -106,11 +106,11 @@ class Customer {
             Database::disconnect();
             header('Content-Type: application/json');
             echo json_encode(['location'=>"$this->urlName.html"]);
-            exit();        }
-        else {
+            exit();
+        } else {
             // if not valid data, go back to "create" form, with errors
             // Note: error fields are set in fieldsAllValid ()method
-            $this->create_record(); 
+            $this->create_record();
         }
     } // end function insert_db_record
     
@@ -232,7 +232,7 @@ class Customer {
                         <p class='row'>
                             <h3>$funWord a $this->title</h3>
                         </p>
-                        <form class='form-horizontal' onsubmit='return Validate($this->urlName.html?fun=$funNext, \"POST\", this);'>                        
+                        <form class='form-horizontal' onsubmit='return loadDoc(\"$this->urlName.php?fun=$funNext\", \"POST\", this);'>                        
                     ";
     } // end function generate_html_top()
     
