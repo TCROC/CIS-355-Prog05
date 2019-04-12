@@ -232,7 +232,7 @@ class Customer {
                         <p class='row'>
                             <h3>$funWord a $this->title</h3>
                         </p>
-                        <form class='form-horizontal' action='$this->urlName.html?fun=$funNext' method='post' enctype='multipart/form-data' onsubmit='return Validate(this);'>                        
+                        <form class='form-horizontal' onsubmit='return Validate($this->urlName.html?fun=$funNext, \"POST\", this);'>                        
                     ";
     } // end function generate_html_top()
     
