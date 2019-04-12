@@ -23,9 +23,9 @@ function loadDoc(url, method, form) {
         }
     };
 
-    console.log(url + window.location.search + " " + method);
+    console.log(url + " " + method);
 
-    xhttp.open(method, url + window.location.search, true);
+    xhttp.open(method, url, true);
 
     if (form != null && form != undefined){
         xhttp.send(new FormData(form));
