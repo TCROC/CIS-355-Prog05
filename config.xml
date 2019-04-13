@@ -1,5 +1,4 @@
 <config-file platform="android" parent="/manifest/application" mode="merge">
-    <activity android:launchMode="singleTop" />
     <!-- Don't block any requests -->
     <access origin="*" />
 </config-file>
