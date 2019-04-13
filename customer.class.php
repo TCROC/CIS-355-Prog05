@@ -258,7 +258,7 @@ class Customer {
         echo " 
                             <div class='form-actions'>
                                 $funButton
-                                <a class='btn btn-secondary' href='$this->urlName.html'>Back</a>
+                                <a class='btn btn-secondary' href='http://csis.svsu.edu/~tclange/cis355/Prog05/$this->urlName.html'>Back</a>
                             </div>
                         </form>
                     </div>
@@ -337,16 +337,16 @@ class Customer {
     function list_records() {
         echo "
             <body>
-                <a href='https://github.com/TCROC/CIS-355-Prog04' target='_blank'>GitHub</a><br />
-                <a href='Diagrams/CustomerFlow.pdf' target='_blank'>Flow Diagram</a><br />
-                <a href='Diagrams/CustomerUML.pdf' target='_blank'>UML Diagram</a><br />
+                <!--<a href='https://github.com/TCROC/CIS-355-Prog04' target='_blank'>GitHub</a><br />-->
+                <!--<a href='Diagrams/CustomerFlow.pdf' target='_blank'>Flow Diagram</a><br />-->
+                <!--<a href='Diagrams/CustomerUML.pdf' target='_blank'>UML Diagram</a><br />-->
                 <div class='container'>
                     <p class='row'>
                         <h3>$this->title" . "s" . "</h3>
                     </p>
                     <p>
                         <a href='$this->urlName.html?fun=display_create_form' class='btn btn-success'>Create</a>
-                        <a href='logout.html' class='btn btn-danger'>Logout</a>
+                        <!--<a href='logout.html' class='btn btn-danger'>Logout</a>-->
                     </p>
                     <div class='row'>
                         <table class='table table-striped table-bordered'>

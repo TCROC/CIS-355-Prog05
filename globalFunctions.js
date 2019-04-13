@@ -5,7 +5,6 @@ var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
 function loadDoc(url, method, form) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
         if (this.readyState == 4 && this.status == 200) {
             var redirect = false;
             try {
@@ -23,9 +22,7 @@ function loadDoc(url, method, form) {
         }
     };
 
-    console.log(url + " " + method);
-
-    xhttp.open(method, url, true);
+    xhttp.open(method, "http://csis.svsu.edu/~tclange/cis355/Prog05/" + url, true);
 
     if (form != null && form != undefined){
         xhttp.send(new FormData(form));

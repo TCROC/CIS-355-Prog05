@@ -11,7 +11,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         echo '<div class="container">
     <h1>Log In</h1>
-    <form class="form-horizontal" onsubmit="loadDoc(\'login.php\', \'POST\', this)">
+    <form class="form-horizontal" onsubmit="return loadDoc(\'login.php\', \'POST\', this)">
         <input name="username" type="text" placeholder="me@email.com" required>
         <input name="password" type="password" placeholder="password" required>
         <button type="submit" class="btn btn-success">Sign In</button>
