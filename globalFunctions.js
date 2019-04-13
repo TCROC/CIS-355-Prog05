@@ -3,8 +3,6 @@
 var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
 
 function loadDoc(url, method, form) {
-    document.getElementById("htmlDiv").innerHTML = "requesting at http://csis.svsu.edu/~tclange/cis355/Prog05/" + url;
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -22,8 +20,6 @@ function loadDoc(url, method, form) {
             if (!redirect)
                 document.getElementById("htmlDiv").innerHTML = this.responseText;
         }
-        document.getElementById("htmlDiv").innerHTML = this.status;
-
     };
 
     xhttp.open(method, "http://csis.svsu.edu/~tclange/cis355/Prog05/" + url, true);
