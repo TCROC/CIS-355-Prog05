@@ -356,8 +356,8 @@ class Customer {
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>BLOB Loaded Picture</th>
-                                    <th>Path Loaded Picture</th>
-                                    <th>Path To Picture</th>
+                                    <!--<th>Path Loaded Picture</th>-->
+                                    <!--<th>Path To Picture</th>-->
                                     <th>Description</th>
                                     <th>Action</th>
                                 </tr>
@@ -372,8 +372,8 @@ class Customer {
                 echo "<td>". $row["email"] . "</td>";
                 echo "<td>". $row["mobile"] . "</td>";
                 echo "<td>" . '<img width=50 height=50 src="data:image/jpeg;base64,' . base64_encode( $row['content'] ).'"/>' . "</td>";
-                echo "<td>" . '<img width=50 height=50 src="uploads1/' . $row["id"] . "/" . $row['filename'] .'"/>' . "</td>";
-                echo "<td><a href='" . $row["absolutepath"] . "' target='_blank'>". $row["absolutepath"] . "</a></td>";
+                //echo "<td>" . '<img width=50 height=50 src="uploads1/' . $row["id"] . "/" . $row['filename'] .'"/>' . "</td>";
+                //echo "<td><a href='" . $row["absolutepath"] . "' target='_blank'>". $row["absolutepath"] . "</a></td>";
                 echo "<td>". $row["description"] . "</td>";
                 echo "<td width=250>";
                 echo "<a class='btn btn-info' href='$this->urlName.html?fun=display_read_form&id=".$row["id"]."'>Read</a>";
