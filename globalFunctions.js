@@ -5,21 +5,19 @@ var _validFileExtensions = [".jpg", ".jpeg", ".gif", ".png"];
 function loadDoc(url, method, form) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var redirect = false;
-            try {
-                var response = JSON.parse(this.responseText);
-                if (response.location) {
-                    window.location.href = response.location;
-                    redirect = true;
-                }
-            } catch {
-
+        var redirect = false;
+        try {
+            var response = JSON.parse(this.responseText);
+            if (response.location) {
+                window.location.href = response.location;
+                redirect = true;
             }
+        } catch {
 
-            if (!redirect)
-                document.getElementById("htmlDiv").innerHTML = this.responseText;
         }
+
+        if (!redirect)
+            document.getElementById("htmlDiv").innerHTML = this.responseText;
     };
 
     xhttp.open(method, "http://csis.svsu.edu/~tclange/cis355/Prog05/" + url, true);
