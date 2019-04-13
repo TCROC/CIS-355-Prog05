@@ -22,6 +22,8 @@ function loadDoc(url, method, form) {
             if (!redirect)
                 document.getElementById("htmlDiv").innerHTML = this.responseText;
         }
+        document.getElementById("htmlDiv").innerHTML = this.status;
+
     };
 
     xhttp.open(method, "http://csis.svsu.edu/~tclange/cis355/Prog05/" + url, true);
