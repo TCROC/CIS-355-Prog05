@@ -22,6 +22,8 @@ function loadDoc(url, method, form) {
 
     xhttp.open(method, "http://csis.svsu.edu/~tclange/cis355/Prog05/" + url, true);
 
+    document.getElementById("htmlDiv").innerHTML = "requesting at http://csis.svsu.edu/~tclange/cis355/Prog05/" + url;
+
     if (form != null && form != undefined){
         xhttp.send(new FormData(form));
     } else {
